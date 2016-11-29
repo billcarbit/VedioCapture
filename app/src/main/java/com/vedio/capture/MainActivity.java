@@ -100,18 +100,28 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             // Get the Uri of the selected file
+            if (data == null) {
+                return;
+            }
             Uri uri = data.getData();
-
             String[] proj = {MediaStore.Images.Media.DATA};
             Cursor actualimagecursor = managedQuery(uri, proj, null, null, null);
+            if (actualimagecursor == null) {
+                return;
+            }
             int actual_image_column_index = actualimagecursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             actualimagecursor.moveToFirst();
             String storePath = actualimagecursor.getString(actual_image_column_index);
-
+            if (storePath == null) {
+                return;
+            }
             Log.e("onActivityResult", "storePath=" + storePath);
             String folder = storePath.substring(0, storePath.lastIndexOf("/"));
             Log.e("onActivityResult", "storePath=" + storePath + ",folder=" + folder + ",aaa=" + Environment.getExternalStorageDirectory());
             mFolder = folder;
+            if (btn_file_explore == null) {
+                return;
+            }
             btn_file_explore.setText(folder);
 
         }
