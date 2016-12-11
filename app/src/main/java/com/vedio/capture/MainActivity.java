@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         initListener();
         initSp();
         initOriginData();
-        MainService.setHandler(myHandler);
+       // MainService.setHandler(myHandler);
     }
 
     @Override

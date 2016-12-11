@@ -49,7 +49,7 @@ public class MainService extends Service {
                 mHandler.sendEmptyMessage(1);
                 File[] files = getAllFileFromDir(targetFolder);
                 for (int i = 0; files != null && i < files.length; i++) {
-                    getBitmapsFromVideo(files[i].getPath());
+                    getBitmapsFromVideo(targetFolder,files[i].getPath());
                 }
                 mHandler.sendEmptyMessage(2);
             }
@@ -67,7 +67,7 @@ public class MainService extends Service {
         return tempList;
     }
 
-    public void getBitmapsFromVideo(String filePath) {
+    public void getBitmapsFromVideo(String targetFolder,String filePath) {
         if (filePath != null && !filePath.toLowerCase().endsWith(".mp4")) {
             return;
         }
@@ -82,11 +82,11 @@ public class MainService extends Service {
         // 得到每一秒时刻的bitmap比如第一秒,第二秒
         for (int i = 1; i <= seconds; i = i + mCaptureInterval) {
             Bitmap bitmap = retriever.getFrameAtTime(i * 1000 * 1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
-            String path = Environment.getExternalStorageDirectory() + File.separator + "_car_vedio_capture" + File.separator + i + ".jpg";
+            String path = targetFolder + File.separator + "_car_vedio_capture" + File.separator + i + ".jpg";
             saveBitmap(bitmap, path);
         }
     }
-
+//mnt/extsd/PAPAGO/MOVIE
     public void saveBitmap(Bitmap bm, String path) {
         String dir = path.substring(0, path.lastIndexOf("/"));
         File dirFile = new File(dir);
